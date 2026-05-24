@@ -1,5 +1,6 @@
 // ===== CHARLEE TRADE GROUP — app.js =====
 // 5 Idiomas · 5 Monedas · WhatsApp multilingüe · Modales legales
+// ✨ ACTUALIZADO: +3 categorías (Niños, Verano, Invierno) +24 productos
 
 // ——— CONFIG ———
 const WA_NUMBER = '56946246760';
@@ -7,7 +8,17 @@ let cart = JSON.parse(localStorage.getItem('ctg_cart') || '[]');
 let currentLang = localStorage.getItem('ctg_lang') || 'es';
 let currentCurrency = localStorage.getItem('ctg_currency') || 'CLP';
 
-const EMOJIS = { ropa:'👕', zapatillas:'👟', electronica:'🎧', telefonia:'📲', accesorios:'📱' };
+// ✨ EMOJIS ACTUALIZADOS - 8 categorías
+const EMOJIS = { 
+  ropa:'👕', 
+  zapatillas:'👟', 
+  electronica:'🎧', 
+  telefonia:'📲', 
+  accesorios:'📱',
+  ninos:'👶',      // ✨ NUEVO
+  verano:'☀️',     // ✨ NUEVO
+  invierno:'❄️'    // ✨ NUEVO
+};
 
 // ——— TASAS (base CLP) ———
 const RATES    = { CLP:1, USD:0.00109, EUR:0.00098, BRL:0.00556, ARS:1.05 };
@@ -30,7 +41,15 @@ const T = {
     cat_elec_name:'Electrónica', cat_elec_desc:'Audífonos · AirPods · Smartwatch', cat_elec_label:'ELECTRÓNICA',
     cat_tel_name:'Telefonía', cat_tel_desc:'iPhone · Samsung · Xiaomi', cat_tel_label:'TELEFONÍA',
     cat_acc_name:'Accesorios Tech', cat_acc_desc:'Cases · Cargadores · Cables · Power Banks', cat_acc_label:'ACCESORIOS TECH',
+    // ✨ NUEVAS CATEGORÍAS
+    cat_ninos_name:'Niños y Bebés', cat_ninos_desc:'Ropa · Sandalias · Pantuflas', cat_ninos_label:'NIÑOS',
+    cat_verano_name:'Verano', cat_verano_desc:'Ropa ligera · Chalas · Zapatillas verano', cat_verano_label:'VERANO',
+    cat_invierno_name:'Invierno', cat_invierno_desc:'Pijamas · Pantuflas · Ropa abrigada', cat_invierno_label:'INVIERNO',
+    
     filter_all:'Todos', filter_ropa:'Ropa', filter_zap:'Zapatillas', filter_elec:'Electrónica', filter_tel:'Telefonía', filter_acc:'Accesorios',
+    // ✨ NUEVOS FILTROS
+    filter_ninos:'Niños', filter_verano:'Verano', filter_invierno:'Invierno',
+    
     btn_add:'+ Agregar al Carro',
     pname_polera:'Polera CTG Premium', pdesc_polera:'100% algodón · Logo CTG bordado · Tallas S–XXL',
     pname_hoodie:'Hoodie CTG Negro/Dorado', pdesc_hoodie:'Algodón premium · Capucha ajustable · Logo CTG',
@@ -49,13 +68,44 @@ const T = {
     pname_case:'Case iPhone Premium', pdesc_case:'Silicona · MagSafe compatible · Varios modelos',
     pname_charger:'Cargador 20W USB-C', pdesc_charger:'Carga rápida · Compatible iPhone y Android',
     pname_powerbank:'Power Bank 10.000mAh', pdesc_powerbank:'Carga dual · Cable incluido · Indicador LED',
+    
+    // ✨ PRODUCTOS NIÑOS
+    pname_bodybebe:'Body Bebé Algodón', pdesc_bodybebe:'100% algodón · 1-12 meses · Varios colores',
+    pname_conjuntobebe:'Conjunto Bebé 2 piezas', pdesc_conjuntobebe:'Polera + pantalón · 6m a 2 años',
+    pname_sandaliasbebe:'Sandalias Bebé', pdesc_sandaliasbebe:'Antideslizantes · 1-3 años · Niño y niña',
+    pname_sandaliasninos:'Sandalias Verano Niños', pdesc_sandaliasninos:'Cómodas · Tallas 20-30 · Varios colores',
+    pname_pantuflasnino:'Pantuflas Niños', pdesc_pantuflasnino:'Diseños animalitos · Suela antideslizante',
+    pname_pantuflasnina:'Pantuflas Niñas', pdesc_pantuflasnina:'Diseños princesa · Suave y abrigada',
+    
+    // ✨ PRODUCTOS VERANO
+    pname_poleraverano:'Polera Verano Hombre', pdesc_poleraverano:'100% algodón ligero · Talla S-XXL',
+    pname_camisalino:'Camisa Lino Hombre', pdesc_camisalino:'Lino premium · Manga corta · Look elegante',
+    pname_shorthombre:'Short Casual Hombre', pdesc_shorthombre:'Algodón fresco · Bolsillos · S-XXL',
+    pname_vestidomujer:'Vestido Verano Mujer', pdesc_vestidomujer:'Diseño floral · Talla S-XL · Look fresco',
+    pname_blusamujer:'Blusa Verano Mujer', pdesc_blusamujer:'Tela fresca · Diseños modernos · S-XL',
+    pname_faldamujer:'Falda Verano Mujer', pdesc_faldamujer:'Diseño casual · Cintura elástica',
+    pname_chalashombre:'Chalas Hombre', pdesc_chalashombre:'Cómodas · Antideslizante · Tallas 39-45',
+    pname_chalasmujer:'Chalas Mujer', pdesc_chalasmujer:'Diseño elegante · Cómodas · Tallas 35-41',
+    pname_zapatillasveranohombre:'Zapatillas Verano Hombre', pdesc_zapatillasveranohombre:'Tela transpirable · Ligeras',
+    pname_zapatillasveranomujer:'Zapatillas Verano Mujer', pdesc_zapatillasveranomujer:'Estilo casual · Suela cómoda',
+    
+    // ✨ PRODUCTOS INVIERNO
+    pname_pijamapolarhombre:'Pijama Polar Hombre', pdesc_pijamapolarhombre:'Polar abrigado · 2 piezas · S-XXL',
+    pname_pijamatermicohombre:'Pijama Térmico Hombre', pdesc_pijamatermicohombre:'Térmico interior · Súper abrigado',
+    pname_pijamapolarmujer:'Pijama Polar Mujer', pdesc_pijamapolarmujer:'Polar suave · Diseños femeninos',
+    pname_pijamatermicomujer:'Pijama Térmico Mujer', pdesc_pijamatermicomujer:'Térmico premium · Súper abrigado',
+    pname_pantuflaspolarhombre:'Pantuflas Polar Hombre', pdesc_pantuflaspolarhombre:'Polar abrigado · Antideslizante',
+    pname_pantuflasbotahombre:'Pantuflas Bota Hombre', pdesc_pantuflasbotahombre:'Tipo bota · Súper abrigadas',
+    pname_pantuflasmujersuave:'Pantuflas Suaves Mujer', pdesc_pantuflasmujersuave:'Súper suaves · Diseños femeninos',
+    pname_pantuflasbotamujer:'Pantuflas Bota Mujer', pdesc_pantuflasbotamujer:'Tipo bota premium · Forro polar',
+    
     step1_t:'Elige tu producto', step1_d:'Navega el catálogo y agrega al carro lo que quieras',
     step2_t:'Paga fácil y seguro', step2_d:'WhatsApp o transferencia bancaria — tú eliges',
     step3_t:'Empacamos para ti', step3_d:'Branding CTG dorado en cada pedido',
     step4_t:'Despacho Starken', step4_d:'A todo Chile en 24–48 horas hábiles con tracking',
     about_p1:'Charlee Trade Group nació en Santiago de Chile en 2026 con una misión clara: llevar moda urbana, zapatillas, electrónica, telefonía y accesorios tech de calidad directamente a ti, sin los sobrecostos del retail tradicional.',
     about_p2:'Operamos 100% online, lo que nos permite ofrecerte precios competitivos y entrega rápida a todo Chile.',
-    tag_lines:'5 Líneas de Producto', tag_ship:'Despacho Nacional', tag_pay:'Pago Seguro',
+    tag_lines:'8 Líneas de Producto', tag_ship:'Despacho Nacional', tag_pay:'Pago Seguro',
     ns_roi:'ROI proyectado año 1', ns_buyers:'Compradores online Chile', ns_time:'Tiempo de despacho', ns_lines:'Líneas de producto',
     cloc:'Ubicación', cship:'Despacho', cship_val:'Starken · Todo Chile · 24–48 hrs',
     form_title:'Envíanos un mensaje', form_name:'Tu nombre', form_email:'Tu email',
@@ -94,7 +144,15 @@ const T = {
     cat_elec_name:'Electronics', cat_elec_desc:'Headphones · AirPods · Smartwatch', cat_elec_label:'ELECTRONICS',
     cat_tel_name:'Phones', cat_tel_desc:'iPhone · Samsung · Xiaomi', cat_tel_label:'PHONES',
     cat_acc_name:'Tech Accessories', cat_acc_desc:'Cases · Chargers · Cables · Power Banks', cat_acc_label:'TECH ACCESSORIES',
+    // ✨ NUEVAS CATEGORÍAS
+    cat_ninos_name:'Kids & Babies', cat_ninos_desc:'Clothes · Sandals · Slippers', cat_ninos_label:'KIDS',
+    cat_verano_name:'Summer', cat_verano_desc:'Light clothes · Flip-flops · Summer shoes', cat_verano_label:'SUMMER',
+    cat_invierno_name:'Winter', cat_invierno_desc:'Pajamas · Slippers · Warm clothes', cat_invierno_label:'WINTER',
+    
     filter_all:'All', filter_ropa:'Clothing', filter_zap:'Sneakers', filter_elec:'Electronics', filter_tel:'Phones', filter_acc:'Accessories',
+    // ✨ NUEVOS FILTROS
+    filter_ninos:'Kids', filter_verano:'Summer', filter_invierno:'Winter',
+    
     btn_add:'+ Add to Cart',
     pname_polera:'CTG Premium T-Shirt', pdesc_polera:'100% cotton · Embroidered CTG logo · Sizes S–XXL',
     pname_hoodie:'CTG Black/Gold Hoodie', pdesc_hoodie:'Premium cotton · Adjustable hood · CTG logo',
@@ -113,13 +171,44 @@ const T = {
     pname_case:'Premium iPhone Case', pdesc_case:'Silicone · MagSafe compatible · Various models',
     pname_charger:'20W USB-C Charger', pdesc_charger:'Fast charging · Compatible iPhone & Android',
     pname_powerbank:'10,000mAh Power Bank', pdesc_powerbank:'Dual charging · Cable included · LED indicator',
+    
+    // ✨ KIDS PRODUCTS
+    pname_bodybebe:'Baby Cotton Body', pdesc_bodybebe:'100% cotton · 1-12 months · Various colors',
+    pname_conjuntobebe:'Baby 2-piece Set', pdesc_conjuntobebe:'Shirt + pants · 6m to 2 years',
+    pname_sandaliasbebe:'Baby Sandals', pdesc_sandaliasbebe:'Non-slip · 1-3 years · Boy and girl',
+    pname_sandaliasninos:'Kids Summer Sandals', pdesc_sandaliasninos:'Comfortable · Sizes 20-30 · Various colors',
+    pname_pantuflasnino:'Boys Slippers', pdesc_pantuflasnino:'Animal designs · Non-slip sole',
+    pname_pantuflasnina:'Girls Slippers', pdesc_pantuflasnina:'Princess designs · Soft and warm',
+    
+    // ✨ SUMMER PRODUCTS
+    pname_poleraverano:'Summer T-shirt Men', pdesc_poleraverano:'100% light cotton · Size S-XXL',
+    pname_camisalino:'Linen Shirt Men', pdesc_camisalino:'Premium linen · Short sleeve · Elegant look',
+    pname_shorthombre:'Casual Shorts Men', pdesc_shorthombre:'Cool cotton · Pockets · S-XXL',
+    pname_vestidomujer:'Summer Dress Women', pdesc_vestidomujer:'Floral design · Size S-XL · Fresh look',
+    pname_blusamujer:'Summer Blouse Women', pdesc_blusamujer:'Cool fabric · Modern designs · S-XL',
+    pname_faldamujer:'Summer Skirt Women', pdesc_faldamujer:'Casual design · Elastic waist',
+    pname_chalashombre:'Men Flip-flops', pdesc_chalashombre:'Comfortable · Non-slip · Sizes 39-45',
+    pname_chalasmujer:'Women Flip-flops', pdesc_chalasmujer:'Elegant design · Comfortable · Sizes 35-41',
+    pname_zapatillasveranohombre:'Summer Sneakers Men', pdesc_zapatillasveranohombre:'Breathable fabric · Light',
+    pname_zapatillasveranomujer:'Summer Sneakers Women', pdesc_zapatillasveranomujer:'Casual style · Comfortable sole',
+    
+    // ✨ WINTER PRODUCTS
+    pname_pijamapolarhombre:'Fleece Pajama Men', pdesc_pijamapolarhombre:'Warm fleece · 2 pieces · S-XXL',
+    pname_pijamatermicohombre:'Thermal Pajama Men', pdesc_pijamatermicohombre:'Thermal lining · Super warm',
+    pname_pijamapolarmujer:'Fleece Pajama Women', pdesc_pijamapolarmujer:'Soft fleece · Feminine designs',
+    pname_pijamatermicomujer:'Thermal Pajama Women', pdesc_pijamatermicomujer:'Premium thermal · Super warm',
+    pname_pantuflaspolarhombre:'Fleece Slippers Men', pdesc_pantuflaspolarhombre:'Warm fleece · Non-slip',
+    pname_pantuflasbotahombre:'Boot Slippers Men', pdesc_pantuflasbotahombre:'Boot style · Super warm',
+    pname_pantuflasmujersuave:'Soft Slippers Women', pdesc_pantuflasmujersuave:'Super soft · Feminine designs',
+    pname_pantuflasbotamujer:'Boot Slippers Women', pdesc_pantuflasbotamujer:'Premium boot style · Fleece lining',
+    
     step1_t:'Choose your product', step1_d:'Browse the catalog and add what you want to cart',
     step2_t:'Pay easy & secure', step2_d:'WhatsApp or bank transfer — your choice',
     step3_t:'We pack for you', step3_d:'Gold CTG branding on every order',
     step4_t:'Starken Shipping', step4_d:'All across Chile in 24–48 business hours with tracking',
     about_p1:'Charlee Trade Group was born in Santiago, Chile in 2026 with a clear mission: bringing quality urban fashion, sneakers, electronics, phones and tech accessories directly to you, without traditional retail markups.',
     about_p2:'We operate 100% online, allowing us to offer competitive prices and fast delivery across Chile.',
-    tag_lines:'5 Product Lines', tag_ship:'National Shipping', tag_pay:'Secure Payment',
+    tag_lines:'8 Product Lines', tag_ship:'National Shipping', tag_pay:'Secure Payment',
     ns_roi:'Projected ROI Year 1', ns_buyers:'Online buyers in Chile', ns_time:'Shipping time', ns_lines:'Product lines',
     cloc:'Location', cship:'Shipping', cship_val:'Starken · All Chile · 24–48 hrs',
     form_title:'Send us a message', form_name:'Your name', form_email:'Your email',
@@ -158,7 +247,15 @@ const T = {
     cat_elec_name:'Eletrônicos', cat_elec_desc:'Fones · AirPods · Smartwatch', cat_elec_label:'ELETRÔNICOS',
     cat_tel_name:'Telefonia', cat_tel_desc:'iPhone · Samsung · Xiaomi', cat_tel_label:'TELEFONIA',
     cat_acc_name:'Acessórios Tech', cat_acc_desc:'Cases · Carregadores · Cabos · Power Banks', cat_acc_label:'ACESSÓRIOS TECH',
+    // ✨ NOVAS CATEGORIAS
+    cat_ninos_name:'Crianças e Bebês', cat_ninos_desc:'Roupas · Sandálias · Pantufas', cat_ninos_label:'CRIANÇAS',
+    cat_verano_name:'Verão', cat_verano_desc:'Roupa leve · Chinelos · Tênis de verão', cat_verano_label:'VERÃO',
+    cat_invierno_name:'Inverno', cat_invierno_desc:'Pijamas · Pantufas · Roupa quente', cat_invierno_label:'INVERNO',
+    
     filter_all:'Todos', filter_ropa:'Roupas', filter_zap:'Tênis', filter_elec:'Eletrônicos', filter_tel:'Telefonia', filter_acc:'Acessórios',
+    // ✨ NOVOS FILTROS
+    filter_ninos:'Crianças', filter_verano:'Verão', filter_invierno:'Inverno',
+    
     btn_add:'+ Adicionar ao Carrinho',
     pname_polera:'Camiseta CTG Premium', pdesc_polera:'100% algodão · Logo CTG bordado · Tamanhos S–XXL',
     pname_hoodie:'Hoodie CTG Preto/Dourado', pdesc_hoodie:'Algodão premium · Capuz ajustável · Logo CTG',
@@ -177,13 +274,44 @@ const T = {
     pname_case:'Capinha iPhone Premium', pdesc_case:'Silicone · Compatível MagSafe · Vários modelos',
     pname_charger:'Carregador 20W USB-C', pdesc_charger:'Carga rápida · Compatível iPhone e Android',
     pname_powerbank:'Power Bank 10.000mAh', pdesc_powerbank:'Carga dupla · Cabo incluído · Indicador LED',
+    
+    // ✨ PRODUTOS CRIANÇAS
+    pname_bodybebe:'Body Bebê Algodão', pdesc_bodybebe:'100% algodão · 1-12 meses · Várias cores',
+    pname_conjuntobebe:'Conjunto Bebê 2 peças', pdesc_conjuntobebe:'Camiseta + calça · 6m a 2 anos',
+    pname_sandaliasbebe:'Sandálias Bebê', pdesc_sandaliasbebe:'Antiderrapantes · 1-3 anos · Menino e menina',
+    pname_sandaliasninos:'Sandálias Verão Crianças', pdesc_sandaliasninos:'Confortáveis · Tamanhos 20-30',
+    pname_pantuflasnino:'Pantufas Meninos', pdesc_pantuflasnino:'Desenhos de animais · Antiderrapante',
+    pname_pantuflasnina:'Pantufas Meninas', pdesc_pantuflasnina:'Desenhos de princesa · Macio e quente',
+    
+    // ✨ PRODUTOS VERÃO
+    pname_poleraverano:'Camiseta Verão Homem', pdesc_poleraverano:'100% algodão leve · Tam S-XXL',
+    pname_camisalino:'Camisa Linho Homem', pdesc_camisalino:'Linho premium · Manga curta · Look elegante',
+    pname_shorthombre:'Short Casual Homem', pdesc_shorthombre:'Algodão fresco · Bolsos · S-XXL',
+    pname_vestidomujer:'Vestido Verão Mulher', pdesc_vestidomujer:'Estampa floral · Tam S-XL',
+    pname_blusamujer:'Blusa Verão Mulher', pdesc_blusamujer:'Tecido fresco · Designs modernos',
+    pname_faldamujer:'Saia Verão Mulher', pdesc_faldamujer:'Design casual · Cintura elástica',
+    pname_chalashombre:'Chinelos Homem', pdesc_chalashombre:'Confortáveis · Antiderrapante · 39-45',
+    pname_chalasmujer:'Chinelos Mulher', pdesc_chalasmujer:'Design elegante · Confortáveis · 35-41',
+    pname_zapatillasveranohombre:'Tênis Verão Homem', pdesc_zapatillasveranohombre:'Tecido respirável · Leves',
+    pname_zapatillasveranomujer:'Tênis Verão Mulher', pdesc_zapatillasveranomujer:'Estilo casual · Sola confortável',
+    
+    // ✨ PRODUTOS INVERNO
+    pname_pijamapolarhombre:'Pijama Polar Homem', pdesc_pijamapolarhombre:'Polar quente · 2 peças · S-XXL',
+    pname_pijamatermicohombre:'Pijama Térmico Homem', pdesc_pijamatermicohombre:'Forro térmico · Super quente',
+    pname_pijamapolarmujer:'Pijama Polar Mulher', pdesc_pijamapolarmujer:'Polar macio · Designs femininos',
+    pname_pijamatermicomujer:'Pijama Térmico Mulher', pdesc_pijamatermicomujer:'Térmico premium · Super quente',
+    pname_pantuflaspolarhombre:'Pantufas Polar Homem', pdesc_pantuflaspolarhombre:'Polar quente · Antiderrapante',
+    pname_pantuflasbotahombre:'Pantufas Bota Homem', pdesc_pantuflasbotahombre:'Tipo bota · Super quentes',
+    pname_pantuflasmujersuave:'Pantufas Macias Mulher', pdesc_pantuflasmujersuave:'Super macias · Designs femininos',
+    pname_pantuflasbotamujer:'Pantufas Bota Mulher', pdesc_pantuflasbotamujer:'Tipo bota premium · Forro polar',
+    
     step1_t:'Escolha seu produto', step1_d:'Navegue pelo catálogo e adicione ao carrinho',
     step2_t:'Pague fácil e seguro', step2_d:'WhatsApp ou transferência bancária — você escolhe',
     step3_t:'Embalamos para você', step3_d:'Branding CTG dourado em cada pedido',
     step4_t:'Envio Starken', step4_d:'Para todo o Chile em 24–48 horas úteis com rastreamento',
     about_p1:'A Charlee Trade Group nasceu em Santiago, Chile em 2026 com uma missão clara: levar moda urbana, tênis, eletrônicos, telefonia e acessórios tech diretamente para você, sem os custos do varejo tradicional.',
     about_p2:'Operamos 100% online, o que nos permite oferecer preços competitivos e entrega rápida para todo o Chile.',
-    tag_lines:'5 Linhas de Produto', tag_ship:'Envio Nacional', tag_pay:'Pagamento Seguro',
+    tag_lines:'8 Linhas de Produto', tag_ship:'Envio Nacional', tag_pay:'Pagamento Seguro',
     ns_roi:'ROI projetado ano 1', ns_buyers:'Compradores online Chile', ns_time:'Tempo de entrega', ns_lines:'Linhas de produto',
     cloc:'Localização', cship:'Entrega', cship_val:'Starken · Todo Chile · 24–48 hrs',
     form_title:'Envie-nos uma mensagem', form_name:'Seu nome', form_email:'Seu email',
@@ -222,7 +350,15 @@ const T = {
     cat_elec_name:'Électronique', cat_elec_desc:'Écouteurs · AirPods · Smartwatch', cat_elec_label:'ÉLECTRONIQUE',
     cat_tel_name:'Téléphonie', cat_tel_desc:'iPhone · Samsung · Xiaomi', cat_tel_label:'TÉLÉPHONIE',
     cat_acc_name:'Accessoires Tech', cat_acc_desc:'Coques · Chargeurs · Câbles · Power Banks', cat_acc_label:'ACCESSOIRES TECH',
+    // ✨ NOUVELLES CATÉGORIES
+    cat_ninos_name:'Enfants et Bébés', cat_ninos_desc:'Vêtements · Sandales · Chaussons', cat_ninos_label:'ENFANTS',
+    cat_verano_name:'Été', cat_verano_desc:'Vêtements légers · Tongs · Baskets été', cat_verano_label:'ÉTÉ',
+    cat_invierno_name:'Hiver', cat_invierno_desc:'Pyjamas · Chaussons · Vêtements chauds', cat_invierno_label:'HIVER',
+    
     filter_all:'Tous', filter_ropa:'Vêtements', filter_zap:'Baskets', filter_elec:'Électronique', filter_tel:'Téléphonie', filter_acc:'Accessoires',
+    // ✨ NOUVEAUX FILTRES
+    filter_ninos:'Enfants', filter_verano:'Été', filter_invierno:'Hiver',
+    
     btn_add:'+ Ajouter au Panier',
     pname_polera:'T-shirt CTG Premium', pdesc_polera:'100% coton · Logo CTG brodé · Tailles S–XXL',
     pname_hoodie:'Hoodie CTG Noir/Or', pdesc_hoodie:'Coton premium · Capuche ajustable · Logo CTG',
@@ -241,13 +377,44 @@ const T = {
     pname_case:'Coque iPhone Premium', pdesc_case:'Silicone · Compatible MagSafe · Divers modèles',
     pname_charger:'Chargeur 20W USB-C', pdesc_charger:'Charge rapide · Compatible iPhone et Android',
     pname_powerbank:'Power Bank 10.000mAh', pdesc_powerbank:'Double charge · Câble inclus · Indicateur LED',
+    
+    // ✨ PRODUITS ENFANTS
+    pname_bodybebe:'Body Bébé Coton', pdesc_bodybebe:'100% coton · 1-12 mois · Diverses couleurs',
+    pname_conjuntobebe:'Ensemble Bébé 2 pièces', pdesc_conjuntobebe:'T-shirt + pantalon · 6m à 2 ans',
+    pname_sandaliasbebe:'Sandales Bébé', pdesc_sandaliasbebe:'Antidérapantes · 1-3 ans · Garçon et fille',
+    pname_sandaliasninos:'Sandales Été Enfants', pdesc_sandaliasninos:'Confortables · Tailles 20-30',
+    pname_pantuflasnino:'Chaussons Garçons', pdesc_pantuflasnino:'Motifs animaux · Antidérapants',
+    pname_pantuflasnina:'Chaussons Filles', pdesc_pantuflasnina:'Motifs princesse · Doux et chauds',
+    
+    // ✨ PRODUITS ÉTÉ
+    pname_poleraverano:'T-shirt Été Homme', pdesc_poleraverano:'100% coton léger · Taille S-XXL',
+    pname_camisalino:'Chemise Lin Homme', pdesc_camisalino:'Lin premium · Manche courte · Look élégant',
+    pname_shorthombre:'Short Casual Homme', pdesc_shorthombre:'Coton frais · Poches · S-XXL',
+    pname_vestidomujer:'Robe Été Femme', pdesc_vestidomujer:'Motif floral · Taille S-XL',
+    pname_blusamujer:'Blouse Été Femme', pdesc_blusamujer:'Tissu frais · Designs modernes',
+    pname_faldamujer:'Jupe Été Femme', pdesc_faldamujer:'Design casual · Taille élastique',
+    pname_chalashombre:'Tongs Homme', pdesc_chalashombre:'Confortables · Antidérapantes · 39-45',
+    pname_chalasmujer:'Tongs Femme', pdesc_chalasmujer:'Design élégant · Confortables · 35-41',
+    pname_zapatillasveranohombre:'Baskets Été Homme', pdesc_zapatillasveranohombre:'Tissu respirant · Légères',
+    pname_zapatillasveranomujer:'Baskets Été Femme', pdesc_zapatillasveranomujer:'Style casual · Semelle confortable',
+    
+    // ✨ PRODUITS HIVER
+    pname_pijamapolarhombre:'Pyjama Polaire Homme', pdesc_pijamapolarhombre:'Polaire chaud · 2 pièces · S-XXL',
+    pname_pijamatermicohombre:'Pyjama Thermique Homme', pdesc_pijamatermicohombre:'Doublure thermique · Très chaud',
+    pname_pijamapolarmujer:'Pyjama Polaire Femme', pdesc_pijamapolarmujer:'Polaire doux · Designs féminins',
+    pname_pijamatermicomujer:'Pyjama Thermique Femme', pdesc_pijamatermicomujer:'Thermique premium · Très chaud',
+    pname_pantuflaspolarhombre:'Chaussons Polaire Homme', pdesc_pantuflaspolarhombre:'Polaire chaud · Antidérapants',
+    pname_pantuflasbotahombre:'Chaussons Bottes Homme', pdesc_pantuflasbotahombre:'Style botte · Très chauds',
+    pname_pantuflasmujersuave:'Chaussons Doux Femme', pdesc_pantuflasmujersuave:'Très doux · Designs féminins',
+    pname_pantuflasbotamujer:'Chaussons Bottes Femme', pdesc_pantuflasbotamujer:'Style botte premium · Doublure polaire',
+    
     step1_t:'Choisissez votre produit', step1_d:'Parcourez le catalogue et ajoutez ce que vous voulez',
     step2_t:'Payez facilement', step2_d:'WhatsApp ou virement bancaire — à vous de choisir',
     step3_t:'Nous emballons pour vous', step3_d:'Branding CTG doré sur chaque commande',
     step4_t:'Livraison Starken', step4_d:'Partout au Chili en 24–48 heures ouvrables avec suivi',
     about_p1:'Charlee Trade Group est né à Santiago du Chili en 2026 avec une mission claire: apporter mode urbaine, baskets, électronique, téléphonie et accessoires tech directement à vous, sans les marges du commerce traditionnel.',
     about_p2:'Nous opérons 100% en ligne, ce qui nous permet d\'offrir des prix compétitifs et une livraison rapide partout au Chili.',
-    tag_lines:'5 Lignes de Produits', tag_ship:'Livraison Nationale', tag_pay:'Paiement Sécurisé',
+    tag_lines:'8 Lignes de Produits', tag_ship:'Livraison Nationale', tag_pay:'Paiement Sécurisé',
     ns_roi:'ROI projeté an 1', ns_buyers:'Acheteurs en ligne Chili', ns_time:'Délai de livraison', ns_lines:'Lignes de produits',
     cloc:'Localisation', cship:'Livraison', cship_val:'Starken · Tout le Chili · 24–48h',
     form_title:'Envoyez-nous un message', form_name:'Votre nom', form_email:'Votre email',
@@ -286,7 +453,15 @@ const T = {
     cat_elec_name:'Elektwonik', cat_elec_desc:'Ekoutè · AirPods · Smartwatch', cat_elec_label:'ELEKTWONIK',
     cat_tel_name:'Telefòn', cat_tel_desc:'iPhone · Samsung · Xiaomi', cat_tel_label:'TELEFÒN',
     cat_acc_name:'Akseswa Tech', cat_acc_desc:'Kas · Chajè · Kab · Power Banks', cat_acc_label:'AKSESWA TECH',
+    // ✨ NOUVO KATEGORI
+    cat_ninos_name:'Timoun ak Tibebe', cat_ninos_desc:'Rad · Sandal · Pantuf', cat_ninos_label:'TIMOUN',
+    cat_verano_name:'Ete', cat_verano_desc:'Rad lejè · Tong · Soulye ete', cat_verano_label:'ETE',
+    cat_invierno_name:'Ivè', cat_invierno_desc:'Pijama · Pantuf · Rad cho', cat_invierno_label:'IVÈ',
+    
     filter_all:'Tout', filter_ropa:'Rad', filter_zap:'Soulye', filter_elec:'Elektwonik', filter_tel:'Telefòn', filter_acc:'Akseswa',
+    // ✨ NOUVO FILTÈ
+    filter_ninos:'Timoun', filter_verano:'Ete', filter_invierno:'Ivè',
+    
     btn_add:'+ Ajoute nan Panye',
     pname_polera:'Chemizèt CTG Premium', pdesc_polera:'100% koton · Logo CTG brode · Tay S–XXL',
     pname_hoodie:'Hoodie CTG Nwa/Dore', pdesc_hoodie:'Koton premium · Chapo ajistab · Logo CTG',
@@ -305,13 +480,44 @@ const T = {
     pname_case:'Ka iPhone Premium', pdesc_case:'Silikon · Konpatib MagSafe · Diferan modèl',
     pname_charger:'Chajè 20W USB-C', pdesc_charger:'Chaj rapid · Konpatib iPhone ak Android',
     pname_powerbank:'Power Bank 10.000mAh', pdesc_powerbank:'Doub chaj · Kab enkli · Endikasyon LED',
+    
+    // ✨ PWODWI TIMOUN
+    pname_bodybebe:'Body Tibebe Koton', pdesc_bodybebe:'100% koton · 1-12 mwa · Diferan koulè',
+    pname_conjuntobebe:'Konplè Tibebe 2 pyès', pdesc_conjuntobebe:'Chemizèt + pantalon · 6m a 2 an',
+    pname_sandaliasbebe:'Sandal Tibebe', pdesc_sandaliasbebe:'Antideplisman · 1-3 an · Gason ak fi',
+    pname_sandaliasninos:'Sandal Ete Timoun', pdesc_sandaliasninos:'Konfòtab · Tay 20-30',
+    pname_pantuflasnino:'Pantuf Tigason', pdesc_pantuflasnino:'Desen zannimo · Antideplisman',
+    pname_pantuflasnina:'Pantuf Tifi', pdesc_pantuflasnina:'Desen princès · Dou ak cho',
+    
+    // ✨ PWODWI ETE
+    pname_poleraverano:'Chemizèt Ete Gason', pdesc_poleraverano:'100% koton lejè · Tay S-XXL',
+    pname_camisalino:'Chemiz Lin Gason', pdesc_camisalino:'Lin premium · Manch kout · Look elegan',
+    pname_shorthombre:'Short Casual Gason', pdesc_shorthombre:'Koton fre · Pòch · S-XXL',
+    pname_vestidomujer:'Wob Ete Fanm', pdesc_vestidomujer:'Desen flè · Tay S-XL',
+    pname_blusamujer:'Bliz Ete Fanm', pdesc_blusamujer:'Twal fre · Desen modèn',
+    pname_faldamujer:'Jip Ete Fanm', pdesc_faldamujer:'Desen casual · Senti elastik',
+    pname_chalashombre:'Tong Gason', pdesc_chalashombre:'Konfòtab · Antideplisman · 39-45',
+    pname_chalasmujer:'Tong Fanm', pdesc_chalasmujer:'Desen elegan · Konfòtab · 35-41',
+    pname_zapatillasveranohombre:'Soulye Ete Gason', pdesc_zapatillasveranohombre:'Twal ki respire · Lejè',
+    pname_zapatillasveranomujer:'Soulye Ete Fanm', pdesc_zapatillasveranomujer:'Estil casual · Sèmèl konfòtab',
+    
+    // ✨ PWODWI IVÈ
+    pname_pijamapolarhombre:'Pijama Polè Gason', pdesc_pijamapolarhombre:'Polè cho · 2 pyès · S-XXL',
+    pname_pijamatermicohombre:'Pijama Tèmik Gason', pdesc_pijamatermicohombre:'Tèmik anndan · Trè cho',
+    pname_pijamapolarmujer:'Pijama Polè Fanm', pdesc_pijamapolarmujer:'Polè dou · Desen feminen',
+    pname_pijamatermicomujer:'Pijama Tèmik Fanm', pdesc_pijamatermicomujer:'Tèmik premium · Trè cho',
+    pname_pantuflaspolarhombre:'Pantuf Polè Gason', pdesc_pantuflaspolarhombre:'Polè cho · Antideplisman',
+    pname_pantuflasbotahombre:'Pantuf Bòt Gason', pdesc_pantuflasbotahombre:'Estil bòt · Trè cho',
+    pname_pantuflasmujersuave:'Pantuf Dou Fanm', pdesc_pantuflasmujersuave:'Trè dou · Desen feminen',
+    pname_pantuflasbotamujer:'Pantuf Bòt Fanm', pdesc_pantuflasbotamujer:'Estil bòt premium · Doublaj polè',
+    
     step1_t:'Chwazi pwodwi ou', step1_d:'Navige nan katalòg la epi ajoute sa ou vle',
     step2_t:'Peye fasil ak sekirite', step2_d:'WhatsApp oswa vèsman bank — ou chwazi',
     step3_t:'Nou pakete pou ou', step3_d:'Branding CTG dore sou chak kòmand',
     step4_t:'Livrezon Starken', step4_d:'Toupatou nan Chili nan 24–48 èdtan travay ak swivi',
     about_p1:'Charlee Trade Group te fonde nan Santiago, Chili an 2026 ak yon misyon klè: pote mod iben, soulye, elektwonik, telefòn ak akseswa tech kalite dirèkteman ba ou, san mak pri komès tradisyonèl.',
     about_p2:'Nou opere 100% enlèn, sa ki pèmèt nou ofri ou pri konpetitif ak livrezon rapid toupatou nan Chili.',
-    tag_lines:'5 Liy Pwodwi', tag_ship:'Livrezon Nasyonal', tag_pay:'Pèman Sekirize',
+    tag_lines:'8 Liy Pwodwi', tag_ship:'Livrezon Nasyonal', tag_pay:'Pèman Sekirize',
     ns_roi:'ROI pwojekte ane 1', ns_buyers:'Achetè enlèn Chili', ns_time:'Tan livrezon', ns_lines:'Liy pwodwi',
     cloc:'Kote', cship:'Livrezon', cship_val:'Starken · Tout Chili · 24–48 èdtan',
     form_title:'Voye nou yon mesaj', form_name:'Non ou', form_email:'Email ou',
@@ -365,9 +571,7 @@ function updateAllPrices() {
 function switchCurrency(c) {
   currentCurrency = c;
   localStorage.setItem('ctg_currency', c);
-  // Actualizar botón visible
   document.getElementById('currBtn').innerHTML = c + ' <span class="lang-arrow">▾</span>';
-  // Cerrar menú
   document.getElementById('currMenu').classList.remove('open');
   updateAllPrices();
 }
@@ -375,8 +579,6 @@ function switchCurrency(c) {
 function toggleCurrMenu() {
   document.getElementById('currMenu').classList.toggle('open');
   document.getElementById('langMenu').classList.remove('open');
-  // Auto-cambiar moneda segun idioma
-  switchCurrency(LANG_CURRENCY[lang]);
 }
 
 // ——— APLICAR IDIOMA ———
@@ -391,7 +593,6 @@ function applyLang(lang) {
     if (t[k] !== undefined) el.placeholder = t[k];
   });
   document.documentElement.lang = lang;
-  // Actualizar nota de moneda si visible
   const note = document.getElementById('currencyNote');
   if (note && currentCurrency !== 'CLP') note.textContent = t.curr_note;
 }
