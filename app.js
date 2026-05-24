@@ -13,6 +13,21 @@ const RATES    = { CLP:1, USD:0.00109, EUR:0.00098, BRL:0.00556, ARS:1.05 };
 const SYMBOLS  = { CLP:'$', USD:'US$', EUR:'€', BRL:'R$', ARS:'AR$' };
 const DECIMALS = { CLP:0, USD:2, EUR:2, BRL:2, ARS:0 };
 
+// ─── GOOGLE SHEETS ────────────────────────────────────────────────────────────
+const SHEETS_URL = 'PEGA_TU_URL_APPS_SCRIPT_AQUI';
+
+function saveToSheet(tipo, detalle) {
+  if (!SHEETS_URL || SHEETS_URL.includes('PEGA')) return;
+  const productos = cart.map(i => i.cantidad + 'x ' + i.nombre).join(', ');
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ cliente: tipo, whatsapp: detalle, productos, total }),
+    headers: { 'Content-Type': 'text/plain' }
+  }).catch(() => {});
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const T = {
   es:{
     flag:'🇨🇱', code:'ES',
@@ -698,6 +713,7 @@ function closeCheckout() {
 }
 
 function payWithWhatsApp() {
+  saveToSheet('WhatsApp', '+' + WA_NUMBER); // ← GOOGLE SHEETS
   const t = T[currentLang];
   const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
   const det = cart.map(i => '• ' + i.cantidad + 'x ' + i.nombre + ' — ' + formatPrice(i.precio*i.cantidad)).join('\n');
@@ -718,6 +734,7 @@ function closeTransferModal() {
 }
 
 function sendTransferConfirmWA() {
+  saveToSheet('Transferencia', '+' + WA_NUMBER); // ← GOOGLE SHEETS
   const t = T[currentLang];
   const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
   const det = cart.map(i => '• ' + i.cantidad + 'x ' + i.nombre).join('\n');
