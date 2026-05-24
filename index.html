@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <div class="nav-logo">
@@ -24,7 +23,6 @@
     </ul>
     <div class="nav-actions">
       
-      <!-- SELECTOR IDIOMA -->
       <div class="lang-switcher" id="langSwitcher">
         <button class="switcher-btn" id="langBtn" onclick="toggleLangMenu()">
           🇨🇱 ES <span class="lang-arrow">▾</span>
@@ -38,7 +36,6 @@
         </div>
       </div>
 
-      <!-- SELECTOR MONEDA -->
       <div class="lang-switcher" id="currSwitcher">
         <button class="switcher-btn" id="currBtn" onclick="toggleCurrMenu()">
           CLP <span class="lang-arrow">▾</span>
@@ -69,7 +66,6 @@
   </div>
 </nav>
 
-<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-bg">
     <div class="hero-grid"></div>
@@ -98,7 +94,6 @@
   </div>
 </section>
 
-<!-- ===== CATEGORÍAS (8 TOTAL) ===== -->
 <section class="categorias" id="categorias">
   <div class="section-header">
     <h2 data-i18n="sec_categories">CATEGORÍAS</h2>
@@ -106,7 +101,6 @@
   </div>
   <div class="cat-grid">
     
-    <!-- CATEGORÍA 1: ROPA -->
     <div class="cat-card" onclick="filterCategory('ropa')">
       <div class="cat-icon">👕</div>
       <h3 data-i18n="cat_ropa_name">Ropa Urbana</h3>
@@ -114,7 +108,6 @@
       <span class="cat-range">$12.000 – $35.000</span>
     </div>
     
-    <!-- CATEGORÍA 2: ZAPATILLAS -->
     <div class="cat-card" onclick="filterCategory('zapatillas')">
       <div class="cat-icon">👟</div>
       <h3 data-i18n="cat_zap_name">Zapatillas</h3>
@@ -122,7 +115,6 @@
       <span class="cat-range">$20.000 – $60.000</span>
     </div>
     
-    <!-- CATEGORÍA 3: ELECTRÓNICA -->
     <div class="cat-card" onclick="filterCategory('electronica')">
       <div class="cat-icon">🎧</div>
       <h3 data-i18n="cat_elec_name">Electrónica</h3>
@@ -130,7 +122,6 @@
       <span class="cat-range">$15.000 – $80.000</span>
     </div>
     
-    <!-- CATEGORÍA 4: TELEFONÍA -->
     <div class="cat-card" onclick="filterCategory('telefonia')">
       <div class="cat-icon">📲</div>
       <h3 data-i18n="cat_tel_name">Telefonía</h3>
@@ -138,7 +129,6 @@
       <span class="cat-range">$100.000 – $3.000.000</span>
     </div>
     
-    <!-- CATEGORÍA 5: ACCESORIOS -->
     <div class="cat-card" onclick="filterCategory('accesorios')">
       <div class="cat-icon">📱</div>
       <h3 data-i18n="cat_acc_name">Accesorios Tech</h3>
@@ -146,7 +136,6 @@
       <span class="cat-range">$5.000 – $25.000</span>
     </div>
     
-    <!-- ✨ CATEGORÍA 6: NIÑOS -->
     <div class="cat-card cat-new" onclick="filterCategory('ninos')">
       <div class="cat-badge">NUEVO</div>
       <div class="cat-icon">👶</div>
@@ -155,7 +144,6 @@
       <span class="cat-range">$5.000 – $25.000</span>
     </div>
     
-    <!-- ✨ CATEGORÍA 7: VERANO -->
     <div class="cat-card cat-new cat-verano" onclick="filterCategory('verano')">
       <div class="cat-badge">NUEVO</div>
       <div class="cat-icon">☀️</div>
@@ -164,7 +152,6 @@
       <span class="cat-range">$8.000 – $45.000</span>
     </div>
     
-    <!-- ✨ CATEGORÍA 8: INVIERNO -->
     <div class="cat-card cat-new cat-invierno" onclick="filterCategory('invierno')">
       <div class="cat-badge">NUEVO</div>
       <div class="cat-icon">❄️</div>
@@ -176,14 +163,12 @@
   </div>
 </section>
 
-<!-- ===== CATÁLOGO ===== -->
 <section class="catalogo" id="catalogo">
   <div class="section-header">
     <h2 data-i18n="sec_catalog">CATÁLOGO</h2>
     <div class="gold-line"></div>
   </div>
 
-  <!-- FILTROS (9 total) -->
   <div class="filtros">
     <button class="filtro-btn active" data-cat="todos" onclick="filterCategory('todos')" data-i18n="filter_all">Todos</button>
     <button class="filtro-btn" data-cat="ropa" onclick="filterCategory('ropa')" data-i18n="filter_ropa">👕 Ropa</button>
@@ -196,12 +181,8 @@
     <button class="filtro-btn filtro-new" data-cat="invierno" onclick="filterCategory('invierno')" data-i18n="filter_invierno">❄️ Invierno</button>
   </div>
 
-  <!-- PRODUCTOS GRID -->
   <div class="productos-grid" id="productosGrid">
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ROPA (4 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="ropa">
       <div class="producto-img ropa-bg"><span class="cat-emoji">👕</span>
         <div class="producto-overlay"><button class="add-cart-btn" onclick="addToCart('Polera CTG Premium', 15000, 'ropa')" data-i18n="btn_add">+ Agregar al Carro</button></div>
@@ -250,9 +231,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ZAPATILLAS (3 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="zapatillas">
       <div class="producto-img zap-bg"><span class="cat-emoji">👟</span>
         <div class="producto-overlay"><button class="add-cart-btn" onclick="addToCart('Tenis Urbano Classic', 32000, 'zapatillas')" data-i18n="btn_add">+ Agregar al Carro</button></div>
@@ -289,9 +267,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ELECTRÓNICA (3 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="electronica">
       <div class="producto-img elec-bg"><span class="cat-emoji">🎧</span>
         <div class="producto-overlay"><button class="add-cart-btn" onclick="addToCart('Audífonos Beats Studio Pro', 65000, 'electronica')" data-i18n="btn_add">+ Agregar al Carro</button></div>
@@ -328,9 +303,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- TELEFONÍA (4 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="telefonia">
       <div class="producto-img tel-bg"><span class="cat-emoji">📲</span>
         <div class="producto-overlay"><button class="add-cart-btn" onclick="addToCart('iPhone 13 128GB', 289000, 'telefonia')" data-i18n="btn_add">+ Agregar al Carro</button></div>
@@ -379,9 +351,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ACCESORIOS (3 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="accesorios">
       <div class="producto-img acc-bg"><span class="cat-emoji">🛡️</span>
         <div class="producto-overlay"><button class="add-cart-btn" onclick="addToCart('Case iPhone Premium', 9000, 'accesorios')" data-i18n="btn_add">+ Agregar al Carro</button></div>
@@ -418,9 +387,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ✨ NIÑOS (6 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="ninos">
       <div class="producto-img ninos-bg"><span class="cat-emoji">👶</span>
         <span class="producto-tag">NUEVO</span>
@@ -499,9 +465,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ☀️ VERANO (10 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="verano">
       <div class="producto-img verano-bg"><span class="cat-emoji">👕</span>
         <span class="producto-tag verano-tag">VERANO</span>
@@ -632,9 +595,6 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════ -->
-    <!-- ❄️ INVIERNO (8 productos) -->
-    <!-- ═══════════════════════════════════════════ -->
     <div class="producto-card" data-cat="invierno">
       <div class="producto-img invierno-bg"><span class="cat-emoji">🛌</span>
         <span class="producto-tag invierno-tag">INVIERNO</span>
@@ -742,7 +702,6 @@
   </div>
 </section>
 
-<!-- ===== PROCESO ===== -->
 <section class="proceso" id="proceso">
   <div class="section-header">
     <h2 data-i18n="sec_howto">¿CÓMO COMPRAR?</h2>
@@ -779,7 +738,6 @@
   </div>
 </section>
 
-<!-- ===== NOSOTROS ===== -->
 <section class="nosotros" id="nosotros">
   <div class="nosotros-content">
     <div class="nosotros-text">
@@ -821,7 +779,6 @@
   </div>
 </section>
 
-<!-- ===== CONTACTO ===== -->
 <section class="contacto" id="contacto">
   <div class="section-header">
     <h2 data-i18n="sec_contact">CONTÁCTANOS</h2>
@@ -845,7 +802,6 @@
         <div><strong>TikTok</strong><a href="https://tiktok.com/@charlee.tg" target="_blank">@charlee.tg</a></div>
       </div>
       
-      <!-- ✨ SECCIÓN WHATSAPP - 3 CONTACTOS -->
       <div class="contacto-item" style="border: none; padding-bottom: 0; flex-direction: column; align-items: stretch;">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
           <span class="contact-icon">💬</span>
@@ -854,7 +810,6 @@
         
         <div class="wa-team">
           
-          <!-- WHATSAPP OFICIAL CTG -->
           <a href="https://wa.me/56996905789?text=Hola%20CTG!%20Quiero%20información%20de%20sus%20productos" target="_blank" class="wa-contact wa-official">
             <span class="wa-badge">OFICIAL</span>
             <div class="wa-icon-circle">👑</div>
@@ -865,7 +820,6 @@
             </div>
           </a>
 
-          <!-- CHARLEE - COO -->
           <a href="https://wa.me/56946246760?text=Hola%20Charlee!%20Quiero%20consultar%20sobre%20CTG" target="_blank" class="wa-contact">
             <div class="wa-icon-circle">📋</div>
             <div class="wa-info">
@@ -875,7 +829,6 @@
             </div>
           </a>
 
-          <!-- MARCE - CSO -->
           <a href="https://wa.me/56999683798?text=Hola%20Marce!%20Quiero%20consultar%20sobre%20CTG" target="_blank" class="wa-contact">
             <div class="wa-icon-circle">💼</div>
             <div class="wa-info">
@@ -917,11 +870,10 @@
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-brand">
-      <img src="CTG.png" alt="Charlee Trade Group" class="footer-logo-img">
+      <span class="logo-ctg">CTG</span>
       <p class="footer-tagline" data-i18n="hero_tagline">Calidad · Estilo · Confianza</p>
     </div>
     <div class="footer-links">
@@ -948,7 +900,6 @@
   </div>
 </footer>
 
-<!-- ===== CART PANEL ===== -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
@@ -973,7 +924,6 @@
   </div>
 </div>
 
-<!-- ===== MODAL RESUMEN PEDIDO ===== -->
 <div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckout()"></div>
 <div class="checkout-modal" id="checkoutModal">
   <div class="checkout-modal-header">
@@ -992,7 +942,6 @@
     <p class="cart-shipping" data-i18n="cart_ship">+ Despacho Starken: $3.500 RM / $5.000 Regiones</p>
     <div class="checkout-modal-btns">
       <button class="btn-wa full-width" onclick="payWithWhatsApp()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         <span data-i18n="btn_wa">Pagar vía WhatsApp</span>
       </button>
       <button class="btn-transfer full-width" onclick="openTransferModal()" data-i18n="btn_bank">🏦 Transferencia Bancaria</button>
@@ -1001,7 +950,6 @@
   </div>
 </div>
 
-<!-- ===== MODAL TRANSFERENCIA ===== -->
 <div class="transfer-overlay" id="transferOverlay" onclick="closeTransferModal()"></div>
 <div class="transfer-modal" id="transferModal">
   <div class="checkout-modal-header">
@@ -1023,14 +971,12 @@
     </div>
     <p class="transfer-note" data-i18n="tr_note">⚠️ Envía el comprobante por WhatsApp o email para confirmar tu pedido.</p>
     <button class="btn-wa full-width" onclick="sendTransferConfirmWA()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:7px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       <span data-i18n="tr_confirm">Ya transferí — Enviar comprobante</span>
     </button>
     <button class="btn-secondary full-width" style="margin-top:0.5rem" onclick="closeTransferModal()" data-i18n="btn_back">Volver</button>
   </div>
 </div>
 
-<!-- ===== MODAL LEGAL ===== -->
 <div class="legal-overlay" id="legalOverlay" onclick="closeLegal()"></div>
 <div class="legal-modal" id="legalModal">
   <div class="checkout-modal-header">
@@ -1045,13 +991,11 @@
   </div>
 </div>
 
-<!-- ===== NOTA DE MONEDA ===== -->
 <div class="currency-note" id="currencyNote" style="display:none;">
   * Precios referenciales. Se cobra en CLP.
 </div>
 
-<!-- ===== BOTÓN WHATSAPP FLOTANTE ===== -->
-<a href="https://wa.me/56996905789?text=Hola%20CTG!%20Quiero%20consultar%20sobre%20un%20producto." target="_blank" class="whatsapp-float" title="Escribir por WhatsApp">
+<a href="https://wa.me/56996905789?text=Hola%20CTG!%20Quiero%20consultar%20sobre%20un%20producto." target="_blank" class="whatsapp-float" title="WhatsApp">
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
