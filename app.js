@@ -1,4 +1,4 @@
-const WA_NUMBER = '56996905789';
+const WA_NUMBER = '56969057891';
 let cart = JSON.parse(localStorage.getItem('ctg_cart') || '[]');
 let currentLang = localStorage.getItem('ctg_lang') || 'es';
 let currentCurrency = localStorage.getItem('ctg_currency') || 'CLP';
@@ -540,7 +540,7 @@ function applyLang(lang) {
   if (note && currentCurrency !== 'CLP') note.textContent = t.curr_note;
 }
 
-const LANG_CURRENCY = { es:"CLP", en:"USD", pt:"BRL", fr:"EUR", ht:"CLP" };
+const LANG_CURRENCY = { es:'CLP', en:'USD', pt:'BRL', fr:'EUR', ht:'CLP' };
 
 function switchLang(lang) {
   currentLang = lang;
@@ -610,10 +610,10 @@ function initHamburger() {
 
 function filterCategory(cat) {
   document.querySelectorAll('.filtro-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.cat === cat || (cat==='todos' && b.dataset.cat==='todos')));
+    b.classList.toggle('active', b.dataset.cat === cat || (cat === 'todos' && b.dataset.cat === 'todos')));
   document.querySelectorAll('.producto-card').forEach(c =>
     c.classList.toggle('hidden', cat !== 'todos' && c.dataset.cat !== cat));
-  if (cat !== 'todos') document.getElementById('catalogo').scrollIntoView({ behavior:'smooth' });
+  if (cat !== 'todos') document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
 }
 
 function addToCart(nombre, precio, categoria) {
@@ -637,11 +637,11 @@ function removeFromCart(id) { cart = cart.filter(i => i.id !== id); saveCart(); 
 function saveCart() { localStorage.setItem('ctg_cart', JSON.stringify(cart)); }
 
 function updateCartUI() {
-  const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
-  const items = cart.reduce((s,i) => s + i.cantidad, 0);
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  const items = cart.reduce((s, i) => s + i.cantidad, 0);
   document.getElementById('cartCount').textContent = items;
   document.getElementById('cartTotal').textContent = formatPrice(total);
-  const cont = document.getElementById('cartItems');
+  const cont  = document.getElementById('cartItems');
   const empty = document.getElementById('cartEmpty');
   const foot  = document.getElementById('cartFooter');
   if (!cart.length) {
@@ -653,16 +653,18 @@ function updateCartUI() {
   cart.forEach(item => {
     const el = document.createElement('div');
     el.className = 'cart-item';
-    el.innerHTML = '<div class="cart-item-emoji">' + (EMOJIS[item.categoria]||'🛍️') + '</div>' +
+    el.innerHTML =
+      '<div class="cart-item-emoji">' + (EMOJIS[item.categoria] || '🛍️') + '</div>' +
       '<div class="cart-item-info">' +
-      '<div class="cart-item-name">' + item.nombre + '</div>' +
-      '<div class="cart-item-price">' + formatPrice(item.precio) + '</div>' +
-      '<div class="cart-item-qty">' +
-      '<button class="qty-btn" onclick="updateQty(' + item.id + ',-1)">−</button>' +
-      '<span class="qty-num">' + item.cantidad + '</span>' +
-      '<button class="qty-btn" onclick="updateQty(' + item.id + ',1)">+</button>' +
-      '<button class="remove-btn" onclick="removeFromCart(' + item.id + ')">✕</button>' +
-      '</div></div>';
+        '<div class="cart-item-name">' + item.nombre + '</div>' +
+        '<div class="cart-item-price">' + formatPrice(item.precio) + '</div>' +
+        '<div class="cart-item-qty">' +
+          '<button class="qty-btn" onclick="updateQty(' + item.id + ',-1)">−</button>' +
+          '<span class="qty-num">' + item.cantidad + '</span>' +
+          '<button class="qty-btn" onclick="updateQty(' + item.id + ',1)">+</button>' +
+          '<button class="remove-btn" onclick="removeFromCart(' + item.id + ')">✕</button>' +
+        '</div>' +
+      '</div>';
     cont.appendChild(el);
   });
 }
@@ -687,17 +689,21 @@ function checkoutTransfer() {
 }
 
 function openCheckoutModal() {
-  const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
   document.getElementById('checkoutModalTotal').textContent = formatPrice(total);
   const cont = document.getElementById('checkoutModalItems');
   cont.innerHTML = '';
   cart.forEach(item => {
     const el = document.createElement('div');
     el.className = 'checkout-modal-item';
-    el.innerHTML = '<div class="co-item-left">' +
-      '<span class="co-item-emoji">' + (EMOJIS[item.categoria]||'🛍️') + '</span>' +
-      '<div><div class="co-item-name">' + item.nombre + '</div>' +
-      '<div class="co-item-qty">x' + item.cantidad + '</div></div></div>' +
+    el.innerHTML =
+      '<div class="co-item-left">' +
+        '<span class="co-item-emoji">' + (EMOJIS[item.categoria] || '🛍️') + '</span>' +
+        '<div>' +
+          '<div class="co-item-name">' + item.nombre + '</div>' +
+          '<div class="co-item-qty">x' + item.cantidad + '</div>' +
+        '</div>' +
+      '</div>' +
       '<span class="co-item-price">' + formatPrice(item.precio * item.cantidad) + '</span>';
     cont.appendChild(el);
   });
@@ -713,16 +719,18 @@ function closeCheckout() {
 }
 
 function payWithWhatsApp() {
-  saveToSheet('WhatsApp', '+' + WA_NUMBER); // ← GOOGLE SHEETS
+  saveToSheet('WhatsApp', '+' + WA_NUMBER);
   const t = T[currentLang];
-  const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
-  const det = cart.map(i => '• ' + i.cantidad + 'x ' + i.nombre + ' — ' + formatPrice(i.precio*i.cantidad)).join('\n');
-  const msg = encodeURIComponent(t.wa_order + ':\n\n' + det + '\n\n💰 ' + t.wa_total + ': ' + formatPrice(total) + '\n🚚 ' + t.wa_ship);
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  const det = cart.map(i => '• ' + i.cantidad + 'x ' + i.nombre + ' — ' + formatPrice(i.precio * i.cantidad)).join('\n');
+  const msg = encodeURIComponent(
+    t.wa_order + ':\n\n' + det + '\n\n💰 ' + t.wa_total + ': ' + formatPrice(total) + '\n🚚 ' + t.wa_ship
+  );
   window.open('https://wa.me/' + WA_NUMBER + '?text=' + msg, '_blank');
 }
 
 function openTransferModal() {
-  const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
   document.getElementById('transferTotal').textContent = formatPrice(total);
   document.getElementById('transferModal').classList.add('open');
   document.getElementById('transferOverlay').classList.add('open');
@@ -734,11 +742,13 @@ function closeTransferModal() {
 }
 
 function sendTransferConfirmWA() {
-  saveToSheet('Transferencia', '+' + WA_NUMBER); // ← GOOGLE SHEETS
+  saveToSheet('Transferencia', '+' + WA_NUMBER);
   const t = T[currentLang];
-  const total = cart.reduce((s,i) => s + i.precio * i.cantidad, 0);
+  const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0);
   const det = cart.map(i => '• ' + i.cantidad + 'x ' + i.nombre).join('\n');
-  const msg = encodeURIComponent(t.wa_trans + ' ' + formatPrice(total) + '.\n\n' + t.wa_detail + ':\n' + det + '\n\n' + t.wa_attach);
+  const msg = encodeURIComponent(
+    t.wa_trans + ' ' + formatPrice(total) + '.\n\n' + t.wa_detail + ':\n' + det + '\n\n' + t.wa_attach
+  );
   window.open('https://wa.me/' + WA_NUMBER + '?text=' + msg, '_blank');
 }
 
@@ -752,11 +762,11 @@ function showToast(msg) {
 
 function initScrollAnimations() {
   const obs = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
-  }), { threshold:0.1 });
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  }), { threshold: 0.1 });
   document.querySelectorAll('.cat-card,.producto-card,.step,.ns-stat').forEach(el => {
-    el.style.opacity='0'; el.style.transform='translateY(20px)';
-    el.style.transition='opacity 0.5s ease,transform 0.5s ease';
+    el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease,transform 0.5s ease';
     obs.observe(el);
   });
 }
